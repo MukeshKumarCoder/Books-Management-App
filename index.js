@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.port;
 
 app.use(express.json());
-app.use("/book", bookRouter);
+app.use("/books", bookRouter);
 
 
 
