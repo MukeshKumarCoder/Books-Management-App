@@ -1,2 +1,3 @@
 /node modules
-.env
+# add .env file to .gitignore
+echo ".env" >> .gitignore
