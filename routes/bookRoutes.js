@@ -1,10 +1,11 @@
 const express = require("express");
 const BookModel = require("../model/bookModel");
+const { auth } = require("../middleware/auth.middleware");
 
 const bookRouter = express.Router();
 
 //adding a book
-bookRouter.post("/add", async (req, res) => {
+bookRouter.post("/add", auth, async (req, res) => {
   try {
     const newBook = BookModel(req.body);
     await newBook.save();
@@ -15,7 +16,7 @@ bookRouter.post("/add", async (req, res) => {
 });
 
 // get all books
-bookRouter.get("/", async (req, res) => {
+bookRouter.get("/", auth, async (req, res) => {
   try {
     const books = await BookModel.find();
     res.status(200).send(books);
@@ -25,7 +26,7 @@ bookRouter.get("/", async (req, res) => {
 });
 
 // update books
-bookRouter.patch("update/:bookid", async (req, res) => {
+bookRouter.patch("update/:bookid", auth, async (req, res) => {
   const { bookid } = req.params;
   try {
     await BookModel.findByIdAndUpdate({ _id: bookid }, req.body);
@@ -36,10 +37,10 @@ bookRouter.patch("update/:bookid", async (req, res) => {
 });
 
 // delete books
-bookRouter.delete("delete/:bookid", async (req, res) => {
+bookRouter.delete("delete/:bookid", auth, async (req, res) => {
   const { bookid } = req.params;
   try {
-    console.log(req.params)
+    console.log(req.params);
     await BookModel.findByIdAndDelete({ _id: bookid }, req.body);
     res.status(200).send({ msg: "Book has been deleted" });
   } catch (error) {
